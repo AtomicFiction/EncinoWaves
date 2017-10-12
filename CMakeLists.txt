@@ -104,7 +104,7 @@ IF( ${DARWIN} )
   #ADD_DEFINITIONS( "-std=c++14" )
   ADD_DEFINITIONS( "-std=c++14 -Wno-parentheses" )
 ELSE()
-  #ADD_DEFINITIONS( "-std=c++0x" )
+  ADD_DEFINITIONS( "-std=c++11" )
 ENDIF()
 
 #-******************************************************************************
@@ -150,6 +150,8 @@ ADD_DEFINITIONS( -fPIC )
 # for quite a bit of warnings.
 ADD_DEFINITIONS( "-Wno-deprecated-register" )
 
+# 
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -ldl")
 
 #-******************************************************************************
 # THREAD BUILDING BLOCKS
