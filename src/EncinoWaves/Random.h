@@ -75,14 +75,14 @@ public:
   BaseRandom()
     : m_seed(0)
     , m_engine(seed_type(0))
-    , m_phaseDist(T(0.0), TAU<T>) {
+    , m_phaseDist(T(0.0), tau<T>()) {
     this->seed(m_seed);
   }
 
   BaseRandom(const Parameters<T> &i_params)
     : m_seed(i_params.random.seed)
     , m_engine(m_seed)
-    , m_phaseDist(T(0.0), TAU<T>) {
+    , m_phaseDist(T(0.0), tau<T>()) {
     this->seed(m_seed);
   }
 

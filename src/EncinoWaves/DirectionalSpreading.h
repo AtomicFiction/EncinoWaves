@@ -70,7 +70,7 @@ template <typename T, typename FUNCA, typename FUNCB>
 T normalizedSwellDirectionalProduct(T theta, FUNCA A, FUNCB B) {
   auto product = [A, B](T x) -> T { return A(x) * B(x); };
 
-  T denom = numericallyIntegrate(product, -PI<T> / 2, PI<T> / 2, 36);
+  T denom = numericallyIntegrate(product, -pi<T>() / 2, pi<T>() / 2, 36);
   return product(theta) / denom;
 }
 
@@ -78,7 +78,7 @@ T normalizedSwellDirectionalProduct(T theta, FUNCA A, FUNCB B) {
 template <typename T>
 T modalAngularFrequencyJONSWAP(T gravity, T meanWindSpeed, T fetchLength) {
   T dimensionlessFetch = gravity * fetchLength / sqr(meanWindSpeed);
-  return TAU<T> * 3.5 * (gravity / meanWindSpeed) *
+  return tau<T>() * 3.5 * (gravity / meanWindSpeed) *
          std::pow(dimensionlessFetch, -0.33);
 }
 
@@ -120,9 +120,9 @@ public:
       return normalizedSwellDirectionalProduct(i_theta, A, B);
     } else {
       T integral =
-        (std::tanh(beta_s * PI<T>) - std::tanh(-beta_s * PI<T>)) / beta_s;
+        (std::tanh(beta_s * pi<T>()) - std::tanh(-beta_s * pi<T>())) / beta_s;
       T d = B(i_theta) / integral;
-      return Imath::lerp(d, static_cast<T>(-1.0 / (2.0 * PI<T>)),
+      return Imath::lerp(d, static_cast<T>(-1.0 / (2.0 * pi<T>())),
                          Imath::clamp(-m_swell, T(0), T(1)));
     }
   }
@@ -158,12 +158,12 @@ public:
 
     shape += shape_bias;
 
-    T factor_A = std::pow(2.0, (2.0 * shape) - 1.0) / PI<T>;
+    T factor_A = std::pow(2.0, (2.0 * shape) - 1.0) / pi<T>();
     T factor_B =
       sqr(std::tgamma(shape + 1.0)) / std::tgamma((2.0 * shape) + 1.0);
     T factor_C = std::pow(std::abs(std::cos(i_theta / 2.0)), 2.0 * shape);
     if (m_swell < 0) {
-      return Imath::lerp(factor_A * factor_B * factor_C, T(1) / T(TAU<T>),
+      return Imath::lerp(factor_A * factor_B * factor_C, T(1) / T(tau<T>()),
                          Imath::clamp(-m_swell, T(0), T(1)));
     } else {
       return factor_A * factor_B * factor_C;
@@ -208,12 +208,12 @@ public:
     }
     shape += shape_bias;
 
-    T factor_A = std::pow(2.0, (2.0 * shape) - 1.0) / PI<T>;
+    T factor_A = std::pow(2.0, (2.0 * shape) - 1.0) / pi<T>();
     T factor_B =
       sqr(std::tgamma(shape + 1.0)) / std::tgamma((2.0 * shape) + 1.0);
     T factor_C = std::pow(std::abs(std::cos(i_theta / 2.0)), 2.0 * shape);
     if (m_swell < 0) {
-      return Imath::lerp(factor_A * factor_B * factor_C, T(1) / T(TAU<T>),
+      return Imath::lerp(factor_A * factor_B * factor_C, T(1) / T(tau<T>()),
                          Imath::clamp(-m_swell, T(0), T(1)));
     } else {
       return factor_A * factor_B * factor_C;
@@ -235,7 +235,7 @@ protected:
   static T modalAngularFrequencyJONSWAP(T gravity, T meanWindSpeed,
                                         T fetchLength) {
     T dimensionlessFetch = gravity * fetchLength / sqr(meanWindSpeed);
-    return TAU<T> * 3.5 * (gravity / meanWindSpeed) *
+    return tau<T>() * 3.5 * (gravity / meanWindSpeed) *
            std::pow(dimensionlessFetch, -0.33);
   }
 
@@ -250,7 +250,7 @@ public:
       return swell(x, i_omega, m_modalAngularFrequency, m_swell);
     };
     auto B = [](T x) -> T {
-      if (x < -PI_2<T> || x > PI_2<T>) {
+      if (x < -pi_2<T>() || x > pi_2<T>()) {
         return T{0};
       } else {
         return sqr(std::cos(x));

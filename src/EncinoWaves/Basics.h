@@ -39,11 +39,17 @@
 
 namespace EncinoWaves {
 
-template <typename T>
-constexpr T PI = T(3.1415926535897932385);
+template<typename T>
+constexpr T pi();
 
-template <typename T>
-constexpr T PI_2 = PI<T> / 2;
+template<>
+constexpr float pi() { return 3.1415926535897932385f; }
+
+template<>
+constexpr double pi() { return 3.1415926535897932385; }
+
+template<typename T>
+constexpr T pi_2() { return pi<T>()  / 2; }
 
 //-*****************************************************************************
 //-*****************************************************************************
@@ -57,7 +63,7 @@ constexpr T PI_2 = PI<T> / 2;
 #endif
 
 template <typename T>
-constexpr T TAU = 2 * PI<T>;
+constexpr T tau() { return 2 * pi<T>(); }
 
 //-*****************************************************************************
 //-*****************************************************************************
@@ -69,12 +75,12 @@ constexpr T TAU = 2 * PI<T>;
 //-*****************************************************************************
 template <typename T>
 T WavenumberFromWavelength(T i_lambda) {
-  return TAU<T> / i_lambda;
+  return tau<T>() / i_lambda;
 }
 
 template <typename T>
 T WavelengthFromWavenumber(T i_k) {
-  return TAU<T> / i_k;
+  return tau<T>() / i_k;
 }
 
 // For brevity
@@ -99,22 +105,22 @@ T lambda_from_k(T i_k) {
 //-*****************************************************************************
 template <typename T>
 T AngularFrequencyFromPeriod(T i_period) {
-  return TAU<T> / i_period;
+  return tau<T>() / i_period;
 }
 
 template <typename T>
 T PeriodFromAngularFrequency(T i_omega) {
-  return TAU<T> / i_omega;
+  return tau<T>() / i_omega;
 }
 
 template <typename T>
 T AngularFrequencyFromOrdinaryFrequency(T i_hertz) {
-  return TAU<T> * i_hertz;
+  return tau<T>() * i_hertz;
 }
 
 template <typename T>
 T OrdinaryFrequencyFromAngularFrequency(T i_omega) {
-  return i_omega / TAU<T>;
+  return i_omega / tau<T>();
 }
 
 // Brevity.
@@ -204,8 +210,8 @@ public:
 
     // Constants
     m_strideJ = (N / 2) + 1;
-    m_maxKmag = real_type(N / 2) * TAU<T> / m_domain;
-    m_dK      = real_type(1) * TAU<T> / m_domain;
+    m_maxKmag = real_type(N / 2) * tau<T>() / m_domain;
+    m_dK      = real_type(1) * tau<T>() / m_domain;
 
     // Execute it!
     int grainSize = std::min(512, N);
@@ -221,7 +227,7 @@ public:
     for (int j = i_range.rows().begin(); j != i_range.rows().end(); ++j) {
       // kj is the wave number in the j direction.
       int realJ    = j <= (N / 2) ? j : j - N;
-      real_type kj = real_type(realJ) * TAU<T> / m_domain;
+      real_type kj = real_type(realJ) * tau<T>() / m_domain;
 
       // Compute start index.
       std::size_t index =
@@ -231,7 +237,7 @@ public:
       for (int i = i_range.cols().begin(); i != i_range.cols().end();
            ++i, ++index) {
         // ki is the wave number in the i direction
-        real_type ki   = real_type(i) * TAU<T> / m_domain;
+        real_type ki   = real_type(i) * tau<T>() / m_domain;
         real_type kMag = std::hypot(ki, kj);
 
         // By restricting to make sure kMag isn't too big, we
