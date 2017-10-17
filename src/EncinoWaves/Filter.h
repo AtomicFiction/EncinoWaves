@@ -79,10 +79,12 @@ public:
       , m_invert(false) {}
 
   SmoothInvertibleBandPassFilter(const Parameters<T>& i_params)
-      : m_edge0(i_params.filter.smallWavelength - i_params.filter.softWidth)
+      : m_edge0(i_params.filter.smallWavelength -
+    		  (i_params.filter.softWidth >= 0.0001 ? i_params.filter.softWidth : 0.0001))
       , m_edge1(i_params.filter.smallWavelength)
       , m_edge2(i_params.filter.bigWavelength)
-      , m_edge3(i_params.filter.bigWavelength + i_params.filter.softWidth)
+      , m_edge3(i_params.filter.bigWavelength +
+    		  (i_params.filter.softWidth >= 0.0001 ? i_params.filter.softWidth : 0.0001))
       , m_min(i_params.filter.min)
       , m_invert(i_params.filter.invert) {}
 
