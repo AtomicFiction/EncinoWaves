@@ -279,14 +279,14 @@ void ConfigRandom_CascadeExec(
   switch (i_params.random.type) {
   default:
   case kNormalRandom:
-    std::cout << "Normal Random Distribution" << std::endl;
+//    std::cout << "Normal Random Distribution" << std::endl;
     ExecuteRange<DISPERSION, SPECTRUM, DIRECTIONAL_SPREADING, FILTER,
                  NormalRandom<T>, T>(i_dispersion, i_spectrum,
                                      i_directionalSpreading, i_filter, Fnorm,
                                      o_state, i_params.domain, rhoG);
     break;
   case kLogNormalRandom:
-    std::cout << "Log-Normal Random Distribution" << std::endl;
+//    std::cout << "Log-Normal Random Distribution" << std::endl;
     ExecuteRange<DISPERSION, SPECTRUM, DIRECTIONAL_SPREADING, FILTER,
                  LogNormalRandom<T>, T>(
       i_dispersion, i_spectrum, i_directionalSpreading, i_filter, FlogNorm,
@@ -309,7 +309,7 @@ void ConfigFilter_CascadeExec(
 
   switch (i_params.filter.type) {
   case kSmoothInvertibleBandPassFilter:
-    std::cout << "Smooth Invertible Band-Pass Filter." << std::endl;
+//    std::cout << "Smooth Invertible Band-Pass Filter." << std::endl;
     ConfigRandom_CascadeExec<DISPERSION, SPECTRUM, DIRECTIONAL_SPREADING,
                              SmoothInvertibleBandPassFilter<T>, T>(
       i_params, i_dispersion, i_spectrum, i_directionalSpreading, Fsibp,
@@ -318,7 +318,7 @@ void ConfigFilter_CascadeExec(
 
   default:
   case kNullFilter:
-    std::cout << "Null Filter.h" << std::endl;
+//    std::cout << "Null Filter.h" << std::endl;
     ConfigRandom_CascadeExec<DISPERSION, SPECTRUM, DIRECTIONAL_SPREADING,
                              NullFilter<T>, T>(
       i_params, i_dispersion, i_spectrum, i_directionalSpreading, Fnull,
@@ -342,26 +342,26 @@ void ConfigDirectionalSpreading_CascadeExec(const Parameters<T>& i_params,
   switch (i_params.directionalSpreading.type) {
   default:
   case kDonelanBannerDirectionalSpreading:
-    std::cout << "Donelan Banner Directional Spreading." << std::endl;
+//    std::cout << "Donelan Banner Directional Spreading." << std::endl;
     ConfigFilter_CascadeExec<DISPERSION, SPECTRUM,
                              DonelanBannerDirectionalSpreading<T>, T>(
       i_params, i_dispersion, i_spectrum, FDonelanBanner, o_state);
     break;
   case kHasselmannDirectionalSpreading:
-    std::cout << "Hasselmann Directional Spreading." << std::endl;
+//    std::cout << "Hasselmann Directional Spreading." << std::endl;
     ConfigFilter_CascadeExec<DISPERSION, SPECTRUM,
                              HasselmannDirectionalSpreading<T>, T>(
       i_params, i_dispersion, i_spectrum, FHasselmann, o_state);
     break;
   case kMitsuyasuDirectionalSpreading:
-    std::cout << "Mitsuyasu Directional Spreading." << std::endl;
+//    std::cout << "Mitsuyasu Directional Spreading." << std::endl;
     ConfigFilter_CascadeExec<DISPERSION, SPECTRUM,
                              MitsuyasuDirectionalSpreading<T>, T>(
       i_params, i_dispersion, i_spectrum, FMitsuyasu, o_state);
     break;
 
   case kPosCosThetaSqrDirectionalSpreading:
-    std::cout << "Pos Cos Theta Squared Directional Spreading." << std::endl;
+//    std::cout << "Pos Cos Theta Squared Directional Spreading." << std::endl;
     ConfigFilter_CascadeExec<DISPERSION, SPECTRUM,
                              PosCosSquaredDirectionalSpreading<T>, T>(
       i_params, i_dispersion, i_spectrum, FCosSqr, o_state);
@@ -381,21 +381,21 @@ void ConfigSpectrum_CascadeExec(const Parameters<T>& i_params,
 
   switch (i_params.spectrum.type) {
   case kPiersonMoskowitzSpectrum:
-    std::cout << "Pierson Moskowitz Spectrum." << std::endl;
+//    std::cout << "Pierson Moskowitz Spectrum." << std::endl;
     ConfigDirectionalSpreading_CascadeExec<DISPERSION,
                                            PiersonMoskowitzSpectrum<T>, T>(
       i_params, i_dispersion, FPiersonMoskowitz, o_state);
     break;
 
   case kJONSWAPSpectrum:
-    std::cout << "JONSWAP Spectrum." << std::endl;
+//    std::cout << "JONSWAP Spectrum." << std::endl;
     ConfigDirectionalSpreading_CascadeExec<DISPERSION, JONSWAPSpectrum<T>, T>(
       i_params, i_dispersion, FJONSWAP, o_state);
     break;
 
   default:
   case kTMASpectrum:
-    std::cout << "Texel Marsen Arsloe (TMA) Spectrum." << std::endl;
+//    std::cout << "Texel Marsen Arsloe (TMA) Spectrum." << std::endl;
     ConfigDirectionalSpreading_CascadeExec<DISPERSION, TMASpectrum<T>, T>(
       i_params, i_dispersion, FTMA, o_state);
     break;
@@ -413,19 +413,19 @@ void ConfigDispersion_CascadeExec(const Parameters<T>& i_params,
 
   switch (i_params.dispersion.type) {
   case kDeepDispersion:
-    std::cout << "Deep Dispersion." << std::endl;
+//    std::cout << "Deep Dispersion." << std::endl;
     ConfigSpectrum_CascadeExec<DeepDispersion<T>, T>(i_params, FDeep, o_state);
     break;
 
   case kFiniteDepthDispersion:
-    std::cout << "Finite Depth Dispersion." << std::endl;
+//    std::cout << "Finite Depth Dispersion." << std::endl;
     ConfigSpectrum_CascadeExec<FiniteDepthDispersion<T>, T>(
       i_params, FFiniteDepth, o_state);
     break;
 
   default:
   case kCapillaryDispersion:
-    std::cout << "Capillary Dispersion." << std::endl;
+//    std::cout << "Capillary Dispersion." << std::endl;
     ConfigSpectrum_CascadeExec<CapillaryDispersion<T>, T>(i_params, FCapillary,
                                                           o_state);
     break;
